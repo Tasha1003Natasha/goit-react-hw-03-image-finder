@@ -1,5 +1,4 @@
 import { Component } from 'react';
-// import 'react-toastify/dist/ReactToastify.css';
 import { Searchbar } from '../components/Searchbar/Searchbar';
 import { ImageGallery } from '../components/ImageGallery/ImageGallery';
 import { ToastContainer } from 'react-toastify';
@@ -49,16 +48,16 @@ import 'react-toastify/dist/ReactToastify.css';
 //     loading: false,
 //   };
 
-//   componentDidMount() {
-//     this.setState({ loading: true });
+// componentDidMount() {
+//   this.setState({ loading: true });
 
-//     fetch(
-//       'https://pixabay.com/api/?q=cat&page=1&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12'
-//     )
-//       .then(res => res.json())
-//       .then(images => this.setState({ images }))
-//       .finally(() => this.setState({ loading: false }));
-//   }
+//   fetch(
+//     'https://pixabay.com/api/?q=cat&page=1&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12'
+//   )
+//     .then(res => res.json())
+//     .then(images => this.setState({ images }))
+//     .finally(() => this.setState({ loading: false }));
+// }
 
 //   formSubmitHendler = image => {
 //     this.setState(prevState => ({
