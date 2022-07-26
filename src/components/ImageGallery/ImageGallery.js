@@ -59,15 +59,20 @@ export class ImageGallery extends Component {
         <ul className="ImageGallery">{imageName}</ul>
         {images && (
           <div>
-            {images.hits.map(({ id, webformatURL, largeImageURL }) => (
-              <li className="ImageGalleryItem" key={id}>
-                <a href={largeImageURL}>
-                  <img
-                    className="ImageGalleryItem-image"
-                    src={webformatURL}
-                    alt="/"
-                  />
-                </a>
+            {images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
+              <li
+                className="ImageGalleryItem"
+                onClick={() =>
+                  this.props.handleImageURL({ largeImageURL, tags })
+                }
+                key={id}
+              >
+                {largeImageURL}
+                <img
+                  className="ImageGalleryItem-image"
+                  src={webformatURL}
+                  alt={tags}
+                />
               </li>
             ))}
             <button
