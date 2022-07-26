@@ -15,7 +15,7 @@ export class ImageGallery extends Component {
     if (prevProps.imageName !== this.props.imageName) {
       // console.log(this.props.imageName);
       const { imageName } = this.props;
-      this.setState({ loading: true });
+      this.setState({ loading: true, images: null });
       fetch(
         `https://pixabay.com/api/?q=${imageName}&page=1&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12`
       )

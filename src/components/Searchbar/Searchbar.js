@@ -1,5 +1,5 @@
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import '../styles.css';
 
@@ -48,6 +48,6 @@ export class Searchbar extends Component {
   }
 }
 
-// Searchbar.propTypes = {
-//   children: PropTypes.node,
-// };
+Searchbar.propTypes = {
+  imageName: PropTypes.string,
+};

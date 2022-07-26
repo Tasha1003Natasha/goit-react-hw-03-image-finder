@@ -18,6 +18,12 @@ body {
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.body.no-scroll {
+  overflow: hidden;
 }
 
 img {
