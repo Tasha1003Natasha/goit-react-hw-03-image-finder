@@ -1,13 +1,11 @@
 import { Component } from 'react';
 import { Searchbar } from '../components/Searchbar/Searchbar';
 import { ImageGallery } from '../components/ImageGallery/ImageGallery';
+// import { ImageGalleryItem } from '../components/ImageGalleryItem/ImageGalleryItem';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// import axios from 'axios';
 
-// axios.defaults.baseURL =
-//   'https://pixabay.com/api/?28317427-cd386f88f666cbda8176ce58f/image_type=photo';
 
 // const ImageGallery = ({ images }) => (
 //   <ul className="gallery">
@@ -21,25 +19,6 @@ import 'react-toastify/dist/ReactToastify.css';
 //   </ul>
 // );
 
-// export class App extends Component {
-//   state = {
-//     images: [],
-//   };
-
-//   async componentDidMount() {
-//     const response = await axios.get('/search?query=react');
-//     this.setState({ images: response.data.hits });
-//   }
-
-//   render() {
-//     const { images } = this.state;
-//     return (
-//       <div>
-//         <ImageGallery images={images} />
-//       </div>
-//     );
-//   }
-// }
 
 // /////////////////////////////////
 // export class App extends Component {
