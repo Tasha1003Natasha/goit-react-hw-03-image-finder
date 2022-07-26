@@ -18,6 +18,12 @@ export class Modal extends Component {
     }
   };
 
+  handleOverlay = event => {
+    if (event.currentTarget === event.target) {
+      this.props.handleModal();
+    }
+  };
+
   render() {
     const { handleModal, largeImageURL, tags } = this.props;
 
@@ -26,7 +32,7 @@ export class Modal extends Component {
         <button type="button" onClick={handleModal}>
           Open modal
         </button>
-        <div className="Overlay" onClick={handleModal}>
+        <div className="Overlay" onClick={this.handleOverlay}>
           <div className="Modal">
             <img
               className="ImageGalleryItem-large"
