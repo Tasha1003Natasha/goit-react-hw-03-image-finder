@@ -26,7 +26,6 @@ export class App extends Component {
   };
 
   handleImageURL = ({ largeImageURL, tags }) => {
-    console.log(largeImageURL);
     this.setState(state => ({
       largeImageURL: largeImageURL,
       tags: tags,

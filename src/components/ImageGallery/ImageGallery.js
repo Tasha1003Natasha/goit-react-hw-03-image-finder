@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import '../styles.css';
 
 export class ImageGallery extends Component {
@@ -24,7 +24,7 @@ export class ImageGallery extends Component {
   }
 
   handleLoadMore = () => {
-    const { images, page } = this.state;
+    const { page } = this.state;
     const { imageName } = this.props;
 
     this.setState({ loading: true });
@@ -50,7 +50,6 @@ export class ImageGallery extends Component {
 
   render() {
     const { images, loading } = this.state;
-    const { imageName } = this.props;
 
     return (
       <>
@@ -60,16 +59,13 @@ export class ImageGallery extends Component {
           {images &&
             images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
               <>
-                {/* {webformatURL}
-                {largeImageURL} */}
                 <li
+                  key={id}
                   className="ImageGalleryItem"
                   onClick={() =>
                     this.props.handleImageURL({ largeImageURL, tags })
                   }
-                  key={id}
                 >
-                  {/* {largeImageURL} */}
                   <img
                     className="ImageGalleryItem-image"
                     src={webformatURL}
