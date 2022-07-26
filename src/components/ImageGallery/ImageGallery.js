@@ -1,21 +1,31 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../styles.css';
+import { toast } from 'react-toastify';
 // import { Audio } from 'react-loader-spinner';
+
+// const STATUS = {
+//   Idle: 'idle',
+//   Loading: 'loading',
+//   Error: 'error',
+//   Success: 'success',
+// };
 
 export class ImageGallery extends Component {
   state = {
     images: null,
-    loading: false,
+    // loading: false,
     page: 1,
     error: null,
+    status: 'idle',
+    isLoadMore: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.imageName !== this.props.imageName) {
       // console.log(this.props.imageName);
       const { imageName } = this.props;
-      this.setState({ loading: true, images: null });
+      this.setState({ status: 'loading' });
       fetch(
         `https://pixabay.com/api/?q=${imageName}&page=1&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12`
       )
@@ -27,9 +37,10 @@ export class ImageGallery extends Component {
             new Error(`There is no image with that ${imageName}`)
           );
         })
-        .then(data => this.setState({ images: data }))
-        .catch(error => this.setState({ error }))
-        .finally(() => this.setState({ loading: false }));
+        .then(data => this.setState({ images: data, status: 'success' }))
+        .catch(error => this.setState({ error, status: 'error' }));
+      toast.error('Something went wrong!');
+      // .finally(() => this.setState({ loading: false }));
     }
   }
 
@@ -37,7 +48,7 @@ export class ImageGallery extends Component {
     const { page } = this.state;
     const { imageName } = this.props;
 
-    this.setState({ loading: true });
+    this.setState({ isLoadMore: true });
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
@@ -55,41 +66,58 @@ export class ImageGallery extends Component {
           },
         }));
       })
-      .finally(() => this.setState({ loading: false }));
+      .catch(() => {
+        toast.error('Something went wrong!');
+      })
+      .finally(() => this.setState({ isLoadMore: false }));
   };
 
   render() {
-    const { images, loading, error } = this.state;
+    const { images, loading, status } = this.state;
 
-    return (
-      <>
-        {error && <h1>{error.message}</h1>}
-        {loading && <h2>Loading...</h2>}
-        {/* {this.props.imageName && <div>Enter the name in the search</div>} */}
-        <ul className="ImageGallery">
-          {images &&
-            images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
-              <li
-                key={id}
-                className="ImageGalleryItem"
-                onClick={() =>
-                  this.props.handleImageURL({ largeImageURL, tags })
-                }
-              >
-                <img
-                  className="ImageGalleryItem-image"
-                  src={webformatURL}
-                  alt={tags}
-                />
-              </li>
-            ))}
-        </ul>
-        <button type="button" onClick={this.handleLoadMore} className="Button">
-          Load more
-          {loading && <span className="Button" />}
-        </button>
+    if (status === 'idle') {
+      return toast.info('Enter the name in the search');
+    }
 
-        {/* <Audio
+    if (status === 'loading') {
+      return <h2>Loading...</h2>;
+    }
+
+    if (status === 'error') {
+      return toast.error('Something went wrong!');
+    }
+
+    if (status === 'success') {
+      return (
+        <>
+          <ul className="ImageGallery">
+            {images &&
+              images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
+                <li
+                  key={id}
+                  className="ImageGalleryItem"
+                  onClick={() =>
+                    this.props.handleImageURL({ largeImageURL, tags })
+                  }
+                >
+                  <img
+                    className="ImageGalleryItem-image"
+                    src={webformatURL}
+                    alt={tags}
+                  />
+                </li>
+              ))}
+          </ul>
+          <button
+            type="button"
+            onClick={this.handleLoadMore}
+            className="Button"
+          >
+            Load more
+            {loading && <span className="Button" />}
+          </button>
+
+          {/* <Audio
           height="10"
           width="10"
           radius="9"
@@ -98,8 +126,49 @@ export class ImageGallery extends Component {
           wrapperStyle
           wrapperClass
         /> */}
-      </>
-    );
+        </>
+      );
+    }
+
+    // return (
+    //   <>
+    //     {/* {error && <h1>{error.message}</h1>} */}
+    //     {/* {loading && <h2>Loading...</h2>} */}
+    //     {/* {this.props.imageName && <div>Enter the name in the search</div>} */}
+    //     <ul className="ImageGallery">
+    //       {images &&
+    //         images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
+    //           <li
+    //             key={id}
+    //             className="ImageGalleryItem"
+    //             onClick={() =>
+    //               this.props.handleImageURL({ largeImageURL, tags })
+    //             }
+    //           >
+    //             <img
+    //               className="ImageGalleryItem-image"
+    //               src={webformatURL}
+    //               alt={tags}
+    //             />
+    //           </li>
+    //         ))}
+    //     </ul>
+    //     <button type="button" onClick={this.handleLoadMore} className="Button">
+    //       Load more
+    //       {loading && <span className="Button" />}
+    //     </button>
+
+    //     {/* <Audio
+    //       height="10"
+    //       width="10"
+    //       radius="9"
+    //       color="blue"
+    //       ariaLabel="three-dots-loading"
+    //       wrapperStyle
+    //       wrapperClass
+    //     /> */}
+    //   </>
+    // );
   }
 }
 
