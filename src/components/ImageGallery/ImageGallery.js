@@ -56,35 +56,37 @@ export class ImageGallery extends Component {
       <>
         {loading && <h1>Loading...</h1>}
         {/* {this.props.imageName && <div>Enter the name in the search</div>} */}
-        <ul className="ImageGallery">{imageName}</ul>
-        {images && (
-          <div>
-            {images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
-              <li
-                className="ImageGalleryItem"
-                onClick={() =>
-                  this.props.handleImageURL({ largeImageURL, tags })
-                }
-                key={id}
-              >
-                {largeImageURL}
-                <img
-                  className="ImageGalleryItem-image"
-                  src={webformatURL}
-                  alt={tags}
-                />
-              </li>
+        <ul className="ImageGallery">
+          {images &&
+            images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
+              <>
+                {/* {webformatURL}
+                {largeImageURL} */}
+                <li
+                  className="ImageGalleryItem"
+                  onClick={() =>
+                    this.props.handleImageURL({ largeImageURL, tags })
+                  }
+                  key={id}
+                >
+                  {/* {largeImageURL} */}
+                  <img
+                    className="ImageGalleryItem-image"
+                    src={webformatURL}
+                    alt={tags}
+                  />
+                </li>
+              </>
             ))}
-            <button
-              type="button"
-              onClick={this.handleLoadMore}
-              className={('Button', loading ? 'disabled' : '')}
-            >
-              Load more
-              {loading && <span className="Button" />}
-            </button>
-          </div>
-        )}
+        </ul>
+        <button
+          type="button"
+          onClick={this.handleLoadMore}
+          className={('Button', loading ? 'disabled' : '')}
+        >
+          Load more
+          {loading && <span className="Button" />}
+        </button>
       </>
     );
   }

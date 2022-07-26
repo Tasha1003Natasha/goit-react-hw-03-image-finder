@@ -21,24 +21,25 @@ export class Modal extends Component {
   render() {
     const { handleModal, largeImageURL, tags } = this.props;
 
-    return (
+    return createPortal(
       <>
         <button type="button" onClick={handleModal}>
           Open modal
         </button>
-        <div className="Overlay">
+        <div className="Overlay" onClick={handleModal}>
           <div className="Modal">
             <img
-              className="ImageGalleryItem-image"
+              className="ImageGalleryItem-large"
               src={largeImageURL}
               alt={tags}
             />
-            <button type="button" onClick={handleModal}>
+            {/* <button type="button" onClick={handleModal}>
               X
-            </button>
+            </button> */}
           </div>
         </div>
-      </>
+      </>,
+      document.body
     );
   }
 }

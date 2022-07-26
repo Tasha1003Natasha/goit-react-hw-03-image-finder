@@ -26,6 +26,7 @@ export class App extends Component {
   };
 
   handleImageURL = ({ largeImageURL, tags }) => {
+    console.log(largeImageURL);
     this.setState(state => ({
       largeImageURL: largeImageURL,
       tags: tags,
@@ -43,9 +44,6 @@ export class App extends Component {
           handleImageURL={this.handleImageURL}
         />
         <ToastContainer />
-        {/* <button type="button" onClick={this.handleModal}>
-          Open modal
-        </button> */}
         {largeImageURL && (
           <Modal
             handleModal={this.handleModal}
