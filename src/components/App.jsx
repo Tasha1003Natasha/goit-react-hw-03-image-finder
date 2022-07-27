@@ -8,14 +8,12 @@ import 'react-toastify/dist/ReactToastify.css';
 export class App extends Component {
   state = {
     imageName: '',
-    // showModal: false,
     largeImageURL: '',
     tags: '',
   };
 
   handleFormSubmit = imageName => {
     this.setState({ imageName });
-    // console.log(imageName);
   };
 
   handleModal = () => {

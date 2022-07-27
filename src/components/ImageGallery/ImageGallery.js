@@ -2,19 +2,18 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../styles.css';
 import { toast } from 'react-toastify';
-// import { Audio } from 'react-loader-spinner';
+import { Loader } from '../Loader/Loader';
 
-// const STATUS = {
-//   Idle: 'idle',
-//   Loading: 'loading',
-//   Error: 'error',
-//   Success: 'success',
-// };
+const STATUS = {
+  Idle: 'idle',
+  Loading: 'loading',
+  Error: 'error',
+  Success: 'success',
+};
 
 export class ImageGallery extends Component {
   state = {
-    images: null,
-    // loading: false,
+    images: {},
     page: 1,
     error: null,
     status: 'idle',
@@ -23,9 +22,8 @@ export class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.imageName !== this.props.imageName) {
-      // console.log(this.props.imageName);
       const { imageName } = this.props;
-      this.setState({ status: 'loading' });
+      this.setState({ status: STATUS.Loading });
       fetch(
         `https://pixabay.com/api/?q=${imageName}&page=1&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12`
       )
@@ -33,13 +31,12 @@ export class ImageGallery extends Component {
           if (response.ok) {
             return response.json();
           }
-          return Promise.reject(
-            new Error(`There is no image with that ${imageName}`)
-          );
+          //   return Promise.reject(
+          //     new Error(`There is no image with that ${imageName}`)
+          //   );
         })
-        .then(data => this.setState({ images: data, status: 'success' }))
-        .catch(error => this.setState({ error, status: 'error' }));
-      toast.error('Something went wrong!');
+        .then(data => this.setState({ images: data, status: STATUS.Success }))
+        .catch(error => this.setState({ error, status: STATUS.Error }));
       // .finally(() => this.setState({ loading: false }));
     }
   }
@@ -58,7 +55,6 @@ export class ImageGallery extends Component {
     )
       .then(res => res.json())
       .then(response => {
-        // console.log(response);
         this.setState(prevState => ({
           images: {
             ...response,
@@ -73,21 +69,25 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { images, loading, status } = this.state;
+    const { images, isLoadMore, status, page } = this.state;
 
-    if (status === 'idle') {
-      return toast.info('Enter the name in the search');
+    if (status === STATUS.Idle) {
+      return <h1 className="Title">Enter the name in the search</h1>;
     }
 
-    if (status === 'loading') {
-      return <h2>Loading...</h2>;
+    if (status === STATUS.Loading) {
+      return <Loader />;
     }
 
-    if (status === 'error') {
+    if (status === STATUS.Error) {
       return toast.error('Something went wrong!');
     }
 
-    if (status === 'success') {
+    if (!images?.hits?.length) {
+      return <h2 className="Title">There is no image with that name</h2>;
+    }
+
+    if (status === STATUS.Success) {
       return (
         <>
           <ul className="ImageGallery">
@@ -108,67 +108,25 @@ export class ImageGallery extends Component {
                 </li>
               ))}
           </ul>
-          <button
-            type="button"
-            onClick={this.handleLoadMore}
-            className="Button"
-          >
-            Load more
-            {loading && <span className="Button" />}
-          </button>
 
-          {/* <Audio
-          height="10"
-          width="10"
-          radius="9"
-          color="blue"
-          ariaLabel="three-dots-loading"
-          wrapperStyle
-          wrapperClass
-        /> */}
+          {images.totalHits >= 12 * page && (
+            <div className="ButtonItem">
+              {isLoadMore ? (
+                <Loader />
+              ) : (
+                <button
+                  type="button"
+                  onClick={this.handleLoadMore}
+                  className="Button"
+                >
+                  Load more
+                </button>
+              )}
+            </div>
+          )}
         </>
       );
     }
-
-    // return (
-    //   <>
-    //     {/* {error && <h1>{error.message}</h1>} */}
-    //     {/* {loading && <h2>Loading...</h2>} */}
-    //     {/* {this.props.imageName && <div>Enter the name in the search</div>} */}
-    //     <ul className="ImageGallery">
-    //       {images &&
-    //         images.hits.map(({ id, webformatURL, largeImageURL, tags }) => (
-    //           <li
-    //             key={id}
-    //             className="ImageGalleryItem"
-    //             onClick={() =>
-    //               this.props.handleImageURL({ largeImageURL, tags })
-    //             }
-    //           >
-    //             <img
-    //               className="ImageGalleryItem-image"
-    //               src={webformatURL}
-    //               alt={tags}
-    //             />
-    //           </li>
-    //         ))}
-    //     </ul>
-    //     <button type="button" onClick={this.handleLoadMore} className="Button">
-    //       Load more
-    //       {loading && <span className="Button" />}
-    //     </button>
-
-    //     {/* <Audio
-    //       height="10"
-    //       width="10"
-    //       radius="9"
-    //       color="blue"
-    //       ariaLabel="three-dots-loading"
-    //       wrapperStyle
-    //       wrapperClass
-    //     /> */}
-    //   </>
-    // );
   }
 }
 

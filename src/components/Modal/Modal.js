@@ -5,10 +5,12 @@ import '../styles.css';
 
 export class Modal extends Component {
   componentDidMount() {
+    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', this.handleCloseModal);
   }
 
   componentWillUnmount() {
+    document.body.style.overflow = 'unset';
     window.removeEventListener('keydown', this.handleCloseModal);
   }
 
@@ -39,9 +41,6 @@ export class Modal extends Component {
               src={largeImageURL}
               alt={tags}
             />
-            {/* <button type="button" onClick={handleModal}>
-              X
-            </button> */}
           </div>
         </div>
       </>,

@@ -19,11 +19,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   max-height: 100vh;
-  overflow: hidden;
-}
-
-.body.no-scroll {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 img {
@@ -133,7 +129,8 @@ img {
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-gap: 16px;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-top: 10px;
+
   padding: 0;
   list-style: none;
   margin-left: auto;
@@ -193,6 +190,11 @@ img {
 /*
 * Стили компонента Buton (Load more)
 */
+.ButtonItem {
+  display: flex;
+  justify-content: center;
+}
+
 .Button {
   padding: 8px 16px;
   border-radius: 2px;
@@ -217,4 +219,16 @@ img {
 .Button:hover,
 .Button:focus {
   background-color: #303f9f;
+}
+
+.Loader {
+  display: flex;
+  justify-content: center;
+}
+
+.Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #303f9f;
 }
