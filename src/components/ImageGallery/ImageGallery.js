@@ -21,11 +21,14 @@ export class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.imageName !== this.props.imageName) {
+    if (
+      prevProps.imageName !== this.props.imageName ||
+      prevState.page !== this.state.page
+    ) {
       const { imageName } = this.props;
       this.setState({ status: STATUS.Loading });
       fetch(
-        `https://pixabay.com/api/?q=${imageName}&page=1&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12`
+        `https://pixabay.com/api/?q=${imageName}&page=${this.state.page}&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12`
       )
         .then(response => {
           if (response.ok) {
@@ -42,30 +45,30 @@ export class ImageGallery extends Component {
   }
 
   handleLoadMore = () => {
-    const { page } = this.state;
-    const { imageName } = this.props;
+    // const { page } = this.state;
+    // const { imageName } = this.props;
 
-    this.setState({ isLoadMore: true });
+    // this.setState({ isLoadMore: true });
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-    fetch(
-      `https://pixabay.com/api/?q=${imageName}&page=${page}&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12
-      }`
-    )
-      .then(res => res.json())
-      .then(response => {
-        this.setState(prevState => ({
-          images: {
-            ...response,
-            data: [...prevState.images.hits, ...response.hits],
-          },
-        }));
-      })
-      .catch(() => {
-        toast.error('Something went wrong!');
-      })
-      .finally(() => this.setState({ isLoadMore: false }));
+    // fetch(
+    //   `https://pixabay.com/api/?q=${imageName}&page=${page}&key=28317427-cd386f88f666cbda8176ce58f&image_type=photo&orientation=horizontal&per_page=12
+    //   }`
+    // )
+    //   .then(res => res.json())
+    //   .then(response => {
+    //     this.setState(prevState => ({
+    //       images: {
+    //         ...response,
+    //         data: [...prevState.images.hits, ...response.hits],
+    //       },
+    //     }));
+    //   })
+    //   .catch(() => {
+    //     toast.error('Something went wrong!');
+    //   })
+    //   .finally(() => this.setState({ isLoadMore: false }));
   };
 
   render() {
@@ -131,11 +134,6 @@ export class ImageGallery extends Component {
 }
 
 ImageGallery.propTotype = {
-  image: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    webformatURL: PropTypes.string.isRequired,
-    largeImageURL: PropTypes.string.isRequired,
-    tags: PropTypes.string,
-  }),
+  imageName: PropTypes.string.isRequired,
   handleImageURL: PropTypes.func.isRequired,
 };
